@@ -10,53 +10,60 @@ using System.Windows.Forms;
 
 namespace AntsAlgorithm
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
 
-        private List<Point> pointList;
+        private List<Point> nodeList;
+        private MultiValueDictionary<int, Dictionary<Point, Point>> pathList;
         private Graphics canvas;
         private Brush brush;
         private bool start;
-        private const short radius = 20;
-        private bool pointSelect;
-        private bool drawPoint;
+        private const short radius = 10;
+        private bool nodeSelect;
+        private RadioOptions rOp;
         private Point lastSel;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
-            pointList = new List<Point>();
-            pointList.Add(new Point(139, 107));//home
-            pointList.Add(new Point(575, 225));//food
+            nodeList = new List<Point>();
+            pathList = new MultiValueDictionary<int, Dictionary<Point, Point>>();
+
+            nodeList.Add(new Point(139, 107));
+            nodeList.Add(new Point(575, 225));
 
             canvas = CreateGraphics();
             brush = new SolidBrush(Color.Black);
             start = true;
-            pointSelect = false;
-            drawPoint = true;
-
+            nodeSelect = false;
+            rOp = RadioOptions.Point;
         }
 
-        private void drawAntPooint(Point point)
+        private void drawAntPooint(Point node)
         {
             if (start)
             {
-                canvas.FillEllipse(new SolidBrush(Color.Red), pointList[0].X, pointList[0].Y, radius, radius);
-                canvas.FillEllipse(new SolidBrush(Color.Red), pointList[1].X, pointList[1].Y, radius, radius);
+                canvas.FillEllipse(new SolidBrush(Color.Red), nodeList[0].X, nodeList[0].Y, radius, radius);
+                canvas.FillEllipse(new SolidBrush(Color.Red), nodeList[1].X, nodeList[1].Y, radius, radius);
                 start = false;
             }
-            pointList.Add(new Point(point.X, point.Y));
-            canvas.FillEllipse(brush, point.X, point.Y, radius, radius);
+            nodeList.Add(new Point(node.X, node.Y));
+            canvas.FillEllipse(brush, node.X, node.Y, radius, radius);
         }
 
-        private void drawLineBeetweenPoints(Point pointA, Point pointB)
+        private void drawLineBeetweenPoints(Point nodeA, Point nodeB)
         {
-            canvas.DrawLine(new Pen(Color.Purple, 5), pointA, pointB );
+            canvas.DrawLine(new Pen(Color.Purple, 5), nodeA, nodeB);
         }
 
         private void DebugLabel(String message)
         {
             labelDebug.Text = message;
+        }
+
+        private void DebugLabel2(String message)
+        {
+            labelDebug2.Text = message;
         }
 
         public static bool InsideCircle(int xc, int yc, int r, int x, int y)
@@ -66,41 +73,102 @@ namespace AntsAlgorithm
             return dx * dx + dy * dy <= r * r;
         }
 
+        public static double DistanceTo(Point point1, Point point2)
+        {
+            var a = (double)(point2.X - point1.X);
+            var b = (double)(point2.Y - point1.Y);
+
+            return Math.Sqrt(a * a + b * b);
+        }
+
         private void MainForm_MouseClick(object sender, MouseEventArgs e)
         {
-            DebugLabel(e.X + " " + e.Y);
-
-            if (!drawPoint && lastSel != Point.Empty)
+            switch (rOp)
             {
-                drawLineBeetweenPoints(lastSel, new Point(e.X, e.Y));
-                lastSel = Point.Empty;
-            }
-
-            foreach (Point p in pointList)
-            {
-                if (InsideCircle(p.X, p.Y, radius, e.X, e.Y))
-                {
-                    DebugLabel("kropka!!!");
-                    pointSelect = true;
-                    lastSel = p;
-                    drawPoint = false;
+                case RadioOptions.Select:
+                    foreach (Point p in nodeList)
+                    {
+                        if (InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        {
+                            lastSel = p;//current item in loop
+                            DebugLabel2("Select " + p.X + " " + p.Y);
+                            break;
+                        }
+                    }
                     break;
-                }
+                case RadioOptions.Point:
+                    foreach (Point p in nodeList)
+                    {
+                        if (!InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        {
+                            drawAntPooint(new Point(e.X, e.Y));
+                            DebugLabel2("New node " + p.X + " " + p.Y);
+                            break;
+                        }
+                    }
+                    break;
+                case RadioOptions.Line:
+                    foreach (Point p in nodeList)
+                    {
+                        if (InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        {
+                            if (lastSel != Point.Empty)
+                            {
+                                drawLineBeetweenPoints(lastSel, new Point(p.X, p.Y));
+                                Dictionary<Point, Point> test  = new Dictionary<Point, Point>();
+                                test.Add(new Point(lastSel.X, lastSel.Y), new Point(p.X, p.Y));
+                                pathList.Add(pathList.Count + 1, test);
+                                DebugLabel2("New path " + p.X + " " + p.Y + " to " + lastSel.X + " " + lastSel.Y);
+                                Font font = new Font(FontFamily.GenericMonospace, 10.0F, FontStyle.Regular);
+                                canvas.DrawString("Path: " + pathList.Count + ", distance: " + DistanceTo(p, lastSel), font, new SolidBrush(Color.DarkGreen), new Point((p.X + lastSel.X) / 2, (p.Y + lastSel.Y) / 2));
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                case RadioOptions.Ant:
+                    foreach (Point p in nodeList)
+                    {
+                        if (InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        {
+                            if (lastSel != Point.Empty)
+                            {
+                                runAnt(p, lastSel);
+                            }
+                        }
+                    }
+                    break;
+            }
+            DebugLabel(e.X + " " + e.Y);
+        }
+
+        private void runAnt(Point a, Point b)
+        {
+            while (true)
+            {
+                
             }
 
-            if(drawPoint)
-                drawAntPooint(new Point(e.X, e.Y));
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void radioButtonPoint_CheckedChanged(object sender, EventArgs e)
         {
-            drawPoint = true;
+            rOp = RadioOptions.Point;
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void radioButtonLine_CheckedChanged(object sender, EventArgs e)
         {
-            drawPoint = false;
+            rOp = RadioOptions.Line;
         }
 
+        private void radioButtonAnt_CheckedChanged(object sender, EventArgs e)
+        {
+            rOp = RadioOptions.Ant;
+        }
+
+        private void radioButtonSelect_CheckedChanged(object sender, EventArgs e)
+        {
+            rOp = RadioOptions.Select;
+        }
     }
 }
