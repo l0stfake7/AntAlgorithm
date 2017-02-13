@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AntsAlgorithm
@@ -39,7 +34,7 @@ namespace AntsAlgorithm
             rOp = RadioOptions.Point;
         }
 
-        private void drawAntPooint(Point node)
+        private void DrawAntPooint(Point node)
         {
             if (start)
             {
@@ -51,7 +46,7 @@ namespace AntsAlgorithm
             canvas.FillEllipse(brush, node.X, node.Y, radius, radius);
         }
 
-        private void drawLineBeetweenPoints(Point nodeA, Point nodeB)
+        private void DrawLineBeetweenPoints(Point nodeA, Point nodeB)
         {
             canvas.DrawLine(new Pen(Color.Purple, 5), nodeA, nodeB);
         }
@@ -73,12 +68,24 @@ namespace AntsAlgorithm
             return dx * dx + dy * dy <= r * r;
         }
 
-        public static double DistanceTo(Point point1, Point point2)
+        public static double DistanceInStraightLineBetweenPoints(Point point1, Point point2)
         {
             var a = (double)(point2.X - point1.X);
             var b = (double)(point2.Y - point1.Y);
 
             return Math.Sqrt(a * a + b * b);
+        }
+
+        private void RunAnt(Point actuallyPoint, Point destinationPoint)//only graphically, not by algorithm 
+        {
+            if (actuallyPoint == destinationPoint)
+            {
+
+            }
+            else
+            {
+
+            }
         }
 
         private void MainForm_MouseClick(object sender, MouseEventArgs e)
@@ -101,7 +108,7 @@ namespace AntsAlgorithm
                     {
                         if (!InsideCircle(p.X, p.Y, radius, e.X, e.Y))
                         {
-                            drawAntPooint(new Point(e.X, e.Y));
+                            DrawAntPooint(new Point(e.X, e.Y));
                             DebugLabel2("New node " + p.X + " " + p.Y);
                             break;
                         }
@@ -114,13 +121,13 @@ namespace AntsAlgorithm
                         {
                             if (lastSel != Point.Empty)
                             {
-                                drawLineBeetweenPoints(lastSel, new Point(p.X, p.Y));
+                                DrawLineBeetweenPoints(lastSel, new Point(p.X, p.Y));
                                 Dictionary<Point, Point> test  = new Dictionary<Point, Point>();
                                 test.Add(new Point(lastSel.X, lastSel.Y), new Point(p.X, p.Y));
                                 pathList.Add(pathList.Count + 1, test);
                                 DebugLabel2("New path " + p.X + " " + p.Y + " to " + lastSel.X + " " + lastSel.Y);
                                 Font font = new Font(FontFamily.GenericMonospace, 10.0F, FontStyle.Regular);
-                                canvas.DrawString("Path: " + pathList.Count + ", distance: " + DistanceTo(p, lastSel), font, new SolidBrush(Color.DarkGreen), new Point((p.X + lastSel.X) / 2, (p.Y + lastSel.Y) / 2));
+                                canvas.DrawString("Path: " + pathList.Count + ", distance: " + DistanceInStraightLineBetweenPoints(p, lastSel), font, new SolidBrush(Color.DarkGreen), new Point((p.X + lastSel.X) / 2, (p.Y + lastSel.Y) / 2));
                             }
                             break;
                         }
@@ -133,22 +140,13 @@ namespace AntsAlgorithm
                         {
                             if (lastSel != Point.Empty)
                             {
-                                runAnt(p, lastSel);
+                                RunAnt(p, lastSel);
                             }
                         }
                     }
                     break;
             }
             DebugLabel(e.X + " " + e.Y);
-        }
-
-        private void runAnt(Point a, Point b)
-        {
-            while (true)
-            {
-                
-            }
-
         }
 
         private void radioButtonPoint_CheckedChanged(object sender, EventArgs e)
