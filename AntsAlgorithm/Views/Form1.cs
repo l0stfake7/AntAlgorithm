@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using AntsAlgorithm.Classes;
+using AntsAlgorithm.Enums;
 
-namespace AntsAlgorithm
+namespace AntsAlgorithm.Views
 {
     public partial class MainForm : Form
     {
@@ -24,8 +26,8 @@ namespace AntsAlgorithm
             nodeList = new List<Point>();
             pathList = new MultiValueDictionary<int, Dictionary<Point, Point>>();
 
-            nodeList.Add(new Point(139, 107));
-            nodeList.Add(new Point(575, 225));
+            nodeList.Add(new Point(239, 107));
+            nodeList.Add(new Point(775, 225));
 
             canvas = CreateGraphics();
             brush = new SolidBrush(Color.Black);
@@ -34,12 +36,17 @@ namespace AntsAlgorithm
             rOp = RadioOptions.Point;
         }
 
+        #region graphic shits
+
         private void DrawAntPooint(Point node)
         {
             if (start)
             {
                 canvas.FillEllipse(new SolidBrush(Color.Red), nodeList[0].X, nodeList[0].Y, radius, radius);
                 canvas.FillEllipse(new SolidBrush(Color.Red), nodeList[1].X, nodeList[1].Y, radius, radius);
+                Font font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
+                canvas.DrawString("AntsColony " + nodeList.Count + "[" + nodeList[0].X + "," + nodeList[0].Y + "]", font, new SolidBrush(Color.Brown), new Point(nodeList[0].X, nodeList[0].Y));
+                canvas.DrawString("Food :) " + nodeList.Count + "[" + nodeList[1].X + "," + nodeList[1].Y + "]", font, new SolidBrush(Color.Brown), new Point(nodeList[1].X, nodeList[1].Y));
                 start = false;
             }
             nodeList.Add(new Point(node.X, node.Y));
@@ -49,6 +56,18 @@ namespace AntsAlgorithm
         private void DrawLineBeetweenPoints(Point nodeA, Point nodeB)
         {
             canvas.DrawLine(new Pen(Color.Purple, 5), nodeA, nodeB);
+        }
+
+        public static void RunAnt(Point actuallyPoint, Point destinationPoint)//only graphically, not by algorithm 
+        {
+            if (actuallyPoint == destinationPoint)
+            {
+
+            }
+            else
+            {
+
+            }
         }
 
         private void DebugLabel(String message)
@@ -61,32 +80,9 @@ namespace AntsAlgorithm
             labelDebug2.Text = message;
         }
 
-        public static bool InsideCircle(int xc, int yc, int r, int x, int y)
-        {
-            int dx = xc - x;
-            int dy = yc - y;
-            return dx * dx + dy * dy <= r * r;
-        }
+        #endregion
 
-        public static double DistanceInStraightLineBetweenPoints(Point point1, Point point2)
-        {
-            var a = (double)(point2.X - point1.X);
-            var b = (double)(point2.Y - point1.Y);
-
-            return Math.Sqrt(a * a + b * b);
-        }
-
-        private void RunAnt(Point actuallyPoint, Point destinationPoint)//only graphically, not by algorithm 
-        {
-            if (actuallyPoint == destinationPoint)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
+        #region form events
 
         private void MainForm_MouseClick(object sender, MouseEventArgs e)
         {
@@ -95,7 +91,7 @@ namespace AntsAlgorithm
                 case RadioOptions.Select:
                     foreach (Point p in nodeList)
                     {
-                        if (InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
                         {
                             lastSel = p;//current item in loop
                             DebugLabel2("Select " + p.X + " " + p.Y);
@@ -106,10 +102,12 @@ namespace AntsAlgorithm
                 case RadioOptions.Point:
                     foreach (Point p in nodeList)
                     {
-                        if (!InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (!Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
                         {
                             DrawAntPooint(new Point(e.X, e.Y));
                             DebugLabel2("New node " + p.X + " " + p.Y);
+                            Font font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
+                            canvas.DrawString("Point " + nodeList.Count + "[" + e.X + "," + e.Y + "]", font, new SolidBrush(Color.Brown), new Point(e.X, e.Y));
                             break;
                         }
                     }
@@ -117,7 +115,7 @@ namespace AntsAlgorithm
                 case RadioOptions.Line:
                     foreach (Point p in nodeList)
                     {
-                        if (InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
                         {
                             if (lastSel != Point.Empty)
                             {
@@ -126,8 +124,8 @@ namespace AntsAlgorithm
                                 test.Add(new Point(lastSel.X, lastSel.Y), new Point(p.X, p.Y));
                                 pathList.Add(pathList.Count + 1, test);
                                 DebugLabel2("New path " + p.X + " " + p.Y + " to " + lastSel.X + " " + lastSel.Y);
-                                Font font = new Font(FontFamily.GenericMonospace, 10.0F, FontStyle.Regular);
-                                canvas.DrawString("Path: " + pathList.Count + ", distance: " + DistanceInStraightLineBetweenPoints(p, lastSel), font, new SolidBrush(Color.DarkGreen), new Point((p.X + lastSel.X) / 2, (p.Y + lastSel.Y) / 2));
+                                Font font = new Font(FontFamily.GenericMonospace, 7.0F, FontStyle.Regular);
+                                canvas.DrawString("Path " + pathList.Count + "[" + Math.Round(Utilities.DistanceInStraightLineBetweenPoints(p, lastSel), 2) + "]", font, new SolidBrush(Color.DarkGreen), new Point((p.X + lastSel.X) / 2, (p.Y + lastSel.Y) / 2));
                             }
                             break;
                         }
@@ -136,7 +134,7 @@ namespace AntsAlgorithm
                 case RadioOptions.Ant:
                     foreach (Point p in nodeList)
                     {
-                        if (InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
                         {
                             if (lastSel != Point.Empty)
                             {
@@ -168,5 +166,7 @@ namespace AntsAlgorithm
         {
             rOp = RadioOptions.Select;
         }
+
+#endregion
     }
 }

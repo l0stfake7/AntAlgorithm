@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Classes\Algorhitms\Ant.cs" />
     <Compile Include="Classes\Algorhitms\AntsColony.cs" />
+    <Compile Include="Classes\Utilities.cs" />
     <Compile Include="Views\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,8 +86,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Classes\Graphics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
