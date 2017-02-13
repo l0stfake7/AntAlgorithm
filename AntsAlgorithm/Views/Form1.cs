@@ -10,63 +10,65 @@ namespace AntsAlgorithm.Views
     public partial class MainForm : Form
     {
 
-        private List<Point> nodeList;
-        private MultiValueDictionary<int, Dictionary<Point, Point>> pathList;
-        private Graphics canvas;
-        private Brush brush;
-        private bool start;
-        private const short radius = 10;
-        private bool nodeSelect;
-        private RadioOptions rOp;
-        private Point lastSel;
+        private List<Point> _nodeList;
+        private MultiValueDictionary<int, Dictionary<Point, Point>> _pathList;
+        private Graphics _canvas;
+        private Brush _brush;
+        private bool _start;
+        private const short Radius = 10;
+        private bool _nodeSelect;
+        private RadioOptions _rOp;
+        private Point _lastSel;
+        private Font _font;
+
 
         public MainForm()
         {
             InitializeComponent();
-            nodeList = new List<Point>();
-            pathList = new MultiValueDictionary<int, Dictionary<Point, Point>>();
+            _nodeList = new List<Point>();
+            _pathList = new MultiValueDictionary<int, Dictionary<Point, Point>>();
 
-            nodeList.Add(new Point(239, 107));
-            nodeList.Add(new Point(775, 225));
+            _nodeList.Add(new Point(239, 107));
+            _nodeList.Add(new Point(775, 225));
 
-            canvas = CreateGraphics();
-            brush = new SolidBrush(Color.Black);
-            start = true;
-            nodeSelect = false;
-            rOp = RadioOptions.Point;
+            _canvas = CreateGraphics();
+            _brush = new SolidBrush(Color.Black);
+            _start = true;
+            _nodeSelect = false;
+            _rOp = RadioOptions.Point;
         }
 
         #region graphic shits
 
         private void DrawAntPooint(Point node)
         {
-            if (start)
+            if (_start)
             {
-                canvas.FillEllipse(new SolidBrush(Color.Red), nodeList[0].X, nodeList[0].Y, radius, radius);
-                canvas.FillEllipse(new SolidBrush(Color.Red), nodeList[1].X, nodeList[1].Y, radius, radius);
-                Font font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
-                canvas.DrawString("AntsColony " + nodeList.Count + "[" + nodeList[0].X + "," + nodeList[0].Y + "]", font, new SolidBrush(Color.Brown), new Point(nodeList[0].X, nodeList[0].Y));
-                canvas.DrawString("Food :) " + nodeList.Count + "[" + nodeList[1].X + "," + nodeList[1].Y + "]", font, new SolidBrush(Color.Brown), new Point(nodeList[1].X, nodeList[1].Y));
-                start = false;
+                _font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
+                _canvas.FillEllipse(new SolidBrush(Color.Red), _nodeList[0].X, _nodeList[0].Y, Radius, Radius);
+                _canvas.DrawString("AntsColony " + _nodeList.Count + "[" + _nodeList[0].X + "," + _nodeList[0].Y + "]", _font, new SolidBrush(Color.Brown), new Point(_nodeList[0].X, _nodeList[0].Y));
+                _canvas.FillEllipse(new SolidBrush(Color.Red), _nodeList[1].X, _nodeList[1].Y, Radius, Radius);
+                _canvas.DrawString("Food :) " + _nodeList.Count + "[" + _nodeList[1].X + "," + _nodeList[1].Y + "]", _font, new SolidBrush(Color.Brown), new Point(_nodeList[1].X, _nodeList[1].Y));
+                _start = false;
             }
-            nodeList.Add(new Point(node.X, node.Y));
-            canvas.FillEllipse(brush, node.X, node.Y, radius, radius);
+            _nodeList.Add(new Point(node.X, node.Y));
+            _canvas.FillEllipse(_brush, node.X, node.Y, Radius, Radius);
         }
 
         private void DrawLineBeetweenPoints(Point nodeA, Point nodeB)
         {
-            canvas.DrawLine(new Pen(Color.Purple, 5), nodeA, nodeB);
+            _canvas.DrawLine(new Pen(Color.Purple, 5), nodeA, nodeB);
         }
 
         public static void RunAnt(Point actuallyPoint, Point destinationPoint)//only graphically, not by algorithm 
         {
             if (actuallyPoint == destinationPoint)
             {
-
+                MessageBox.Show("Omnomom");
             }
             else
             {
-
+                
             }
         }
 
@@ -86,59 +88,59 @@ namespace AntsAlgorithm.Views
 
         private void MainForm_MouseClick(object sender, MouseEventArgs e)
         {
-            switch (rOp)
+            switch (_rOp)
             {
                 case RadioOptions.Select:
-                    foreach (Point p in nodeList)
+                    foreach (Point p in _nodeList)
                     {
-                        if (Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (Utilities.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
                         {
-                            lastSel = p;//current item in loop
+                            _lastSel = p;//current item in loop
                             DebugLabel2("Select " + p.X + " " + p.Y);
                             break;
                         }
                     }
                     break;
                 case RadioOptions.Point:
-                    foreach (Point p in nodeList)
+                    foreach (Point p in _nodeList)
                     {
-                        if (!Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (!Utilities.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
                         {
                             DrawAntPooint(new Point(e.X, e.Y));
                             DebugLabel2("New node " + p.X + " " + p.Y);
-                            Font font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
-                            canvas.DrawString("Point " + nodeList.Count + "[" + e.X + "," + e.Y + "]", font, new SolidBrush(Color.Brown), new Point(e.X, e.Y));
+                            _font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
+                            _canvas.DrawString("Point " + _nodeList.Count + "[" + e.X + "," + e.Y + "]", _font, new SolidBrush(Color.Brown), new Point(e.X, e.Y));
                             break;
                         }
                     }
                     break;
                 case RadioOptions.Line:
-                    foreach (Point p in nodeList)
+                    foreach (Point p in _nodeList)
                     {
-                        if (Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (Utilities.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
                         {
-                            if (lastSel != Point.Empty)
+                            if (_lastSel != Point.Empty)
                             {
-                                DrawLineBeetweenPoints(lastSel, new Point(p.X, p.Y));
+                                DrawLineBeetweenPoints(_lastSel, new Point(p.X, p.Y));
                                 Dictionary<Point, Point> test  = new Dictionary<Point, Point>();
-                                test.Add(new Point(lastSel.X, lastSel.Y), new Point(p.X, p.Y));
-                                pathList.Add(pathList.Count + 1, test);
-                                DebugLabel2("New path " + p.X + " " + p.Y + " to " + lastSel.X + " " + lastSel.Y);
-                                Font font = new Font(FontFamily.GenericMonospace, 7.0F, FontStyle.Regular);
-                                canvas.DrawString("Path " + pathList.Count + "[" + Math.Round(Utilities.DistanceInStraightLineBetweenPoints(p, lastSel), 2) + "]", font, new SolidBrush(Color.DarkGreen), new Point((p.X + lastSel.X) / 2, (p.Y + lastSel.Y) / 2));
+                                test.Add(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
+                                _pathList.Add(_pathList.Count + 1, test);
+                                DebugLabel2("New path " + p.X + " " + p.Y + " to " + _lastSel.X + " " + _lastSel.Y);
+                                _font = new Font(FontFamily.GenericMonospace, 7.0F, FontStyle.Regular);
+                                _canvas.DrawString("Path " + _pathList.Count + "[" + Math.Round(Utilities.DistanceInStraightLineBetweenPoints(p, _lastSel), 2) + "]", _font, new SolidBrush(Color.DarkGreen), new Point((p.X + _lastSel.X) / 2, (p.Y + _lastSel.Y) / 2));
                             }
                             break;
                         }
                     }
                     break;
                 case RadioOptions.Ant:
-                    foreach (Point p in nodeList)
+                    foreach (Point p in _nodeList)
                     {
-                        if (Utilities.InsideCircle(p.X, p.Y, radius, e.X, e.Y))
+                        if (Utilities.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
                         {
-                            if (lastSel != Point.Empty)
+                            if (_lastSel != Point.Empty)
                             {
-                                RunAnt(p, lastSel);
+                                RunAnt(p, _lastSel);
                             }
                         }
                     }
@@ -149,22 +151,22 @@ namespace AntsAlgorithm.Views
 
         private void radioButtonPoint_CheckedChanged(object sender, EventArgs e)
         {
-            rOp = RadioOptions.Point;
+            _rOp = RadioOptions.Point;
         }
 
         private void radioButtonLine_CheckedChanged(object sender, EventArgs e)
         {
-            rOp = RadioOptions.Line;
+            _rOp = RadioOptions.Line;
         }
 
         private void radioButtonAnt_CheckedChanged(object sender, EventArgs e)
         {
-            rOp = RadioOptions.Ant;
+            _rOp = RadioOptions.Ant;
         }
 
         private void radioButtonSelect_CheckedChanged(object sender, EventArgs e)
         {
-            rOp = RadioOptions.Select;
+            _rOp = RadioOptions.Select;
         }
 
 #endregion

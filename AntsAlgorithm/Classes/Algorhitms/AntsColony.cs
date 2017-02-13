@@ -8,5 +8,7 @@ namespace AntsAlgorithm.Classes.Algorhitms
 {
     class AntsColony
     {
+       
+
     }
 }
