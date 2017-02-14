@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Timers;
 using System.Windows.Forms;
 using AntsAlgorithm.Classes;
 using AntsAlgorithm.Enums;
@@ -11,7 +12,7 @@ namespace AntsAlgorithm.Views
     {
 
         private List<Point> _nodeList;
-        private MultiValueDictionary<int, Dictionary<Point, Point>> _pathList;
+        private Dictionary<int, Tuple<Point, Point>> _pathList;
         private Graphics _canvas;
         private Brush _brush;
         private bool _start;
@@ -26,7 +27,7 @@ namespace AntsAlgorithm.Views
         {
             InitializeComponent();
             _nodeList = new List<Point>();
-            _pathList = new MultiValueDictionary<int, Dictionary<Point, Point>>();
+            _pathList = new Dictionary<int, Tuple<Point, Point>>();
 
             _nodeList.Add(new Point(239, 107));
             _nodeList.Add(new Point(775, 225));
@@ -36,12 +37,13 @@ namespace AntsAlgorithm.Views
             _start = true;
             _nodeSelect = false;
             _rOp = RadioOptions.Point;
+            _lastSel = _nodeList[0];
         }
 
         #region graphic shits
 
         private void DrawAntPooint(Point node)
-        {
+        {//TODO check if new point is close to another
             if (_start)
             {
                 _font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
@@ -60,16 +62,9 @@ namespace AntsAlgorithm.Views
             _canvas.DrawLine(new Pen(Color.Purple, 5), nodeA, nodeB);
         }
 
-        public static void RunAnt(Point actuallyPoint, Point destinationPoint)//only graphically, not by algorithm 
+        private static void RunAnt(object source, ElapsedEventArgs e)
         {
-            if (actuallyPoint == destinationPoint)
-            {
-                MessageBox.Show("Omnomom");
-            }
-            else
-            {
-                
-            }
+            
         }
 
         private void DebugLabel(String message)
@@ -122,9 +117,11 @@ namespace AntsAlgorithm.Views
                             if (_lastSel != Point.Empty)
                             {
                                 DrawLineBeetweenPoints(_lastSel, new Point(p.X, p.Y));
-                                Dictionary<Point, Point> test  = new Dictionary<Point, Point>();
-                                test.Add(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
-                                _pathList.Add(_pathList.Count + 1, test);
+
+                                var test123 = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
+
+                                _pathList.Add(_pathList.Count + 1, test123);
+
                                 DebugLabel2("New path " + p.X + " " + p.Y + " to " + _lastSel.X + " " + _lastSel.Y);
                                 _font = new Font(FontFamily.GenericMonospace, 7.0F, FontStyle.Regular);
                                 _canvas.DrawString("Path " + _pathList.Count + "[" + Math.Round(Utilities.DistanceInStraightLineBetweenPoints(p, _lastSel), 2) + "]", _font, new SolidBrush(Color.DarkGreen), new Point((p.X + _lastSel.X) / 2, (p.Y + _lastSel.Y) / 2));
@@ -140,7 +137,19 @@ namespace AntsAlgorithm.Views
                         {
                             if (_lastSel != Point.Empty)
                             {
-                                RunAnt(p, _lastSel);
+                                var test123 = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
+                                foreach (KeyValuePair<int, Tuple<Point, Point>> entry in _pathList)
+                                {
+                                    if (entry.Value.Equals(test123))//find path with start point p.x, p.y and end point e.x e.y, todo find from e.x e.y to p.x, p.y
+                                    {
+                                        MessageBox.Show("Ok");
+                                        System.Timers.Timer aTimer = new System.Timers.Timer();
+                                        aTimer.Elapsed += RunAnt;
+                                        aTimer.Interval = 100;
+                                        aTimer.Enabled = true;
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
