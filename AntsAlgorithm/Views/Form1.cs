@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using AntsAlgorithm.Classes;
+using AntsAlgorithm.Classes.Algorhitms;
 using AntsAlgorithm.Enums;
 
 namespace AntsAlgorithm.Views
@@ -21,7 +23,8 @@ namespace AntsAlgorithm.Views
         private RadioOptions _rOp;
         private Point _lastSel;
         private Font _font;
-
+        private Image antImage;
+        private Point temp;
 
         public MainForm()
         {
@@ -38,12 +41,21 @@ namespace AntsAlgorithm.Views
             _nodeSelect = false;
             _rOp = RadioOptions.Point;
             _lastSel = _nodeList[0];
+            antImage = Image.FromFile("ant.png");
+            RedrawAnt();
+
+
         }
 
         #region graphic shits
 
+        private void RedrawAnt()
+        {
+            pictureBoxAnt.Image = antImage;
+        }
+
         private void DrawAntPooint(Point node)
-        {//TODO check if new point is close to another
+        {//TODO check if new point is so fuckin close to another
             if (_start)
             {
                 _font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
@@ -59,12 +71,7 @@ namespace AntsAlgorithm.Views
 
         private void DrawLineBeetweenPoints(Point nodeA, Point nodeB)
         {
-            _canvas.DrawLine(new Pen(Color.Purple, 5), nodeA, nodeB);
-        }
-
-        private static void RunAnt(object source, ElapsedEventArgs e)
-        {
-            
+            _canvas.DrawLine(new Pen(Color.Purple, 4), nodeA, nodeB);
         }
 
         private void DebugLabel(String message)
@@ -143,10 +150,19 @@ namespace AntsAlgorithm.Views
                                     if (entry.Value.Equals(test123))//find path with start point p.x, p.y and end point e.x e.y, todo find from e.x e.y to p.x, p.y
                                     {
                                         MessageBox.Show("Ok");
-                                        System.Timers.Timer aTimer = new System.Timers.Timer();
-                                        aTimer.Elapsed += RunAnt;
-                                        aTimer.Interval = 100;
-                                        aTimer.Enabled = true;
+                                        Ant ant = new Ant();
+                                        temp = new Point(p.X, p.Y);
+                                        MessageBox.Show(temp.X + " " + _lastSel.X + " " + temp.Y + " " + _lastSel.Y);
+                                        Invoke((MethodInvoker) delegate
+                                        {
+                                            while (_lastSel.X < temp.X && _lastSel.Y < temp.Y)
+                                            {
+                                                temp.X -= 1;
+                                                temp.Y -= 1;
+                                                pictureBoxAnt.Location = temp;
+                                                Thread.Sleep(100);
+                                            }
+                                        });
                                         break;
                                     }
                                 }
@@ -178,6 +194,6 @@ namespace AntsAlgorithm.Views
             _rOp = RadioOptions.Select;
         }
 
-#endregion
+        #endregion
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.labelDebug = new System.Windows.Forms.Label();
             this.radioButtonPoint = new System.Windows.Forms.RadioButton();
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
@@ -36,7 +37,9 @@
             this.labelDebug2 = new System.Windows.Forms.Label();
             this.groupBoxDrawPointLines = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBoxAnt = new System.Windows.Forms.PictureBox();
             this.groupBoxDrawPointLines.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAnt)).BeginInit();
             this.SuspendLayout();
             // 
             // labelDebug
@@ -127,11 +130,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Move ants";
             // 
+            // pictureBoxAnt
+            // 
+            this.pictureBoxAnt.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBoxAnt.InitialImage")));
+            this.pictureBoxAnt.Location = new System.Drawing.Point(15, 223);
+            this.pictureBoxAnt.Name = "pictureBoxAnt";
+            this.pictureBoxAnt.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxAnt.TabIndex = 8;
+            this.pictureBoxAnt.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1234, 586);
+            this.Controls.Add(this.pictureBoxAnt);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxDrawPointLines);
             this.Controls.Add(this.labelDebug2);
@@ -141,6 +154,7 @@
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseClick);
             this.groupBoxDrawPointLines.ResumeLayout(false);
             this.groupBoxDrawPointLines.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAnt)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,6 +170,7 @@
         private System.Windows.Forms.Label labelDebug2;
         private System.Windows.Forms.GroupBox groupBoxDrawPointLines;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox pictureBoxAnt;
     }
 }
 

@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AntsAlgorithm.Classes.Algorhitms
 {
     class Ant
     {
-        private static uint _antsCounter = 0;
         private Point _startPoint;
         private Point _endPoint;
+        public Thread antThread;
 
         public Ant()
         {
-            _antsCounter++;
+            antThread = new Thread(StartAntThread);
+        }
+
+        private void StartAntThread()
+        {
         }
 
         public Ant(Point startPoint, Point endPoint) : base()
@@ -26,12 +31,7 @@ namespace AntsAlgorithm.Classes.Algorhitms
 
         ~Ant()
         {
-            _antsCounter--;
-        }
 
-        public static uint AntsCounter
-        {
-            get { return _antsCounter; }
         }
     }
 }
