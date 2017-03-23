@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26020.0
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntsAlgorithm", "AntsAlgorithm\AntsAlgorithm.csproj", "{26C5CBE4-3BC8-4E71-A0F8-F7AF093F6C70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntsAlgorithm", "AntsAlgorithm\AntsAlgorithm.csproj", "{32D3A55D-D888-4FF5-BD1C-A1E9B29FD9BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{26C5CBE4-3BC8-4E71-A0F8-F7AF093F6C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26C5CBE4-3BC8-4E71-A0F8-F7AF093F6C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26C5CBE4-3BC8-4E71-A0F8-F7AF093F6C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26C5CBE4-3BC8-4E71-A0F8-F7AF093F6C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32D3A55D-D888-4FF5-BD1C-A1E9B29FD9BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32D3A55D-D888-4FF5-BD1C-A1E9B29FD9BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32D3A55D-D888-4FF5-BD1C-A1E9B29FD9BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32D3A55D-D888-4FF5-BD1C-A1E9B29FD9BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
