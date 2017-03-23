@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,7 +23,6 @@ namespace AntsAlgorithm
         private SelectMode _rOp;
         private Point _lastSel;
         private Font _font;
-        private Image antImage;
         private Point temp;
         private Bitmap bmp;
         private Graphics g;
@@ -143,13 +143,12 @@ namespace AntsAlgorithm
                                 {
                                     if (entry.Value.Equals(path))
                                     {//find path with start point p.x, p.y and end point e.x e.y, todo find from e.x e.y to p.x, p.y
-                                        Ant ant = new Ant(0, 0);
+                                       IList<Tuple<Double, Double>> points = Utility.SplitLine(
+                                              new Tuple<Double, Double>(_lastSel.X, _lastSel.Y),
+                                              new Tuple<Double, Double>(p.X, p.Y), 10);
+                                        Ant ant = new Ant(points);
                                         world.Ants.Add(ant);
-                                        ant.AntThread.Start();
-                                        while (!ant.AntThread.IsAlive)
-                                        {
-                                            Thread.Sleep(1);
-                                        }
+                                        DebugLabel1("New Ant");
                                         break;
                                     }
                                 }
@@ -164,26 +163,17 @@ namespace AntsAlgorithm
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {//here only moving
-            //g.Clear(Color.PeachPuff);
+          
             if (world.Ants.Count != 0)
             {
-                //bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                //g = Graphics.FromImage(bmp);
                 for (int x = 0; x < world.Ants.Count; x++)
                 {
-
-                    Point p1 = new Point(world.Ants[x].X, world.Ants[x].Y);
-                    Point p2 = new Point(world.Ants[x].X + 50, world.Ants[x].Y + 50);
-
                     Font drawFont = new Font("Arial", 8);
                     SolidBrush drawBrush = new SolidBrush(Color.Fuchsia);
-                    g.DrawEllipse(new Pen(Color.Black, 5), world.Ants[x].X, world.Ants[x].Y, 5, 5);
-                    g.DrawString(x.ToString(), drawFont, drawBrush, world.Ants[x].X + 25, world.Ants[x].Y - 5);
-                    //g.DrawEllipse(p, World.Ants[x].X + 50, World.Ants[x].Y + 50, 5, 5);
-                    //g.DrawLine(p, p1, p2);
-
+                    g.DrawEllipse(new Pen(Color.DarkGreen, 5), (float)world.Ants[x].ActualPoint.Item1, (float)world.Ants[x].ActualPoint.Item2, 5, 5);
+                    g.DrawString(x.ToString(), drawFont, drawBrush, (float)world.Ants[x].ActualPoint.Item1 + 25, (float)world.Ants[x].ActualPoint.Item2 - 5);
                 }
-                //pictureBox.Image = bmp;
+                pictureBox.Image = bmp;
             }
             counter++;
             countLabel.Text = "On Paint called counter: " + counter;
@@ -193,6 +183,15 @@ namespace AntsAlgorithm
         private void buttonStart_Click(object sender, EventArgs e)
         {
             World.Run = true;
+            for (int i = 0; i < world.Ants.Count; i++)
+            {
+                world.Ants[i].AntThread.Start();
+                while (!world.Ants[i].AntThread.IsAlive)
+                {
+                    Thread.Sleep(1);
+                }
+
+            }
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -200,7 +199,8 @@ namespace AntsAlgorithm
             World.Run = false;
             for (int i = 0; i < world.Ants.Count; i++)
             {
-                world.Ants[i].AntThread.Abort();
+                if(!world.Ants[i].AntThread.IsAlive)
+                    world.Ants[i].AntThread.Abort();
             }
         }
 
@@ -229,7 +229,21 @@ namespace AntsAlgorithm
             toolStripStatusLabel.Text = "X: " + e.X + " Y:" + e.Y;
         }
 
-    #endregion
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "jpeg (*.jpeg)|*.jpeg";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                int width = Convert.ToInt32(pictureBox.Width);
+                int height = Convert.ToInt32(pictureBox.Height);
+                Bitmap bmp = new Bitmap(width, height);
+                pictureBox.DrawToBitmap(bmp, new Rectangle(0, 0, width, height));
+                bmp.Save(dialog.FileName, ImageFormat.Jpeg);
+            }
+        }
+
+        #endregion
 
         #region graphic shits
 
@@ -278,5 +292,7 @@ namespace AntsAlgorithm
         }
 
         #endregion
+
+        
     }
 }

@@ -32,9 +32,13 @@
             this.Main = new System.Windows.Forms.TabPage();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.groupBoxDebug = new System.Windows.Forms.GroupBox();
+            this.countLabel = new System.Windows.Forms.Label();
             this.labelDebug2 = new System.Windows.Forms.Label();
             this.labelDebug1 = new System.Windows.Forms.Label();
             this.groupBoxActions = new System.Windows.Forms.GroupBox();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.buttonStop = new System.Windows.Forms.Button();
+            this.buttonStart = new System.Windows.Forms.Button();
             this.groupBoxSelectMode = new System.Windows.Forms.GroupBox();
             this.radioButtonAnt = new System.Windows.Forms.RadioButton();
             this.radioButtonPath = new System.Windows.Forms.RadioButton();
@@ -42,12 +46,9 @@
             this.radioButtonSelect = new System.Windows.Forms.RadioButton();
             this.Editor = new System.Windows.Forms.TabPage();
             this.Settings = new System.Windows.Forms.TabPage();
-            this.countLabel = new System.Windows.Forms.Label();
-            this.buttonStart = new System.Windows.Forms.Button();
-            this.buttonStop = new System.Windows.Forms.Button();
-            this.buttonReset = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.MainTabControl.SuspendLayout();
             this.Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -106,7 +107,16 @@
             this.groupBoxDebug.Size = new System.Drawing.Size(179, 97);
             this.groupBoxDebug.TabIndex = 2;
             this.groupBoxDebug.TabStop = false;
-            this.groupBoxDebug.Text = "groupBox3";
+            this.groupBoxDebug.Text = "Debug Info";
+            // 
+            // countLabel
+            // 
+            this.countLabel.AutoSize = true;
+            this.countLabel.Location = new System.Drawing.Point(7, 68);
+            this.countLabel.Name = "countLabel";
+            this.countLabel.Size = new System.Drawing.Size(60, 13);
+            this.countLabel.TabIndex = 2;
+            this.countLabel.Text = "countLabel";
             // 
             // labelDebug2
             // 
@@ -128,6 +138,7 @@
             // 
             // groupBoxActions
             // 
+            this.groupBoxActions.Controls.Add(this.buttonSave);
             this.groupBoxActions.Controls.Add(this.buttonReset);
             this.groupBoxActions.Controls.Add(this.buttonStop);
             this.groupBoxActions.Controls.Add(this.buttonStart);
@@ -136,7 +147,37 @@
             this.groupBoxActions.Size = new System.Drawing.Size(179, 112);
             this.groupBoxActions.TabIndex = 1;
             this.groupBoxActions.TabStop = false;
-            this.groupBoxActions.Text = "groupBox2";
+            this.groupBoxActions.Text = "Actions";
+            // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(7, 49);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(74, 23);
+            this.buttonReset.TabIndex = 3;
+            this.buttonReset.Text = "Reset";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
+            // buttonStop
+            // 
+            this.buttonStop.Location = new System.Drawing.Point(98, 20);
+            this.buttonStop.Name = "buttonStop";
+            this.buttonStop.Size = new System.Drawing.Size(75, 23);
+            this.buttonStop.TabIndex = 1;
+            this.buttonStop.Text = "Stop";
+            this.buttonStop.UseVisualStyleBackColor = true;
+            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
+            // 
+            // buttonStart
+            // 
+            this.buttonStart.Location = new System.Drawing.Point(7, 20);
+            this.buttonStart.Name = "buttonStart";
+            this.buttonStart.Size = new System.Drawing.Size(74, 23);
+            this.buttonStart.TabIndex = 0;
+            this.buttonStart.Text = "Start";
+            this.buttonStart.UseVisualStyleBackColor = true;
+            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
             // groupBoxSelectMode
             // 
@@ -202,7 +243,7 @@
             this.Editor.Location = new System.Drawing.Point(4, 22);
             this.Editor.Name = "Editor";
             this.Editor.Padding = new System.Windows.Forms.Padding(3);
-            this.Editor.Size = new System.Drawing.Size(701, 360);
+            this.Editor.Size = new System.Drawing.Size(701, 334);
             this.Editor.TabIndex = 1;
             this.Editor.Text = "Editor";
             this.Editor.UseVisualStyleBackColor = true;
@@ -212,49 +253,10 @@
             this.Settings.Location = new System.Drawing.Point(4, 22);
             this.Settings.Name = "Settings";
             this.Settings.Padding = new System.Windows.Forms.Padding(3);
-            this.Settings.Size = new System.Drawing.Size(701, 360);
+            this.Settings.Size = new System.Drawing.Size(701, 334);
             this.Settings.TabIndex = 2;
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
-            // 
-            // countLabel
-            // 
-            this.countLabel.AutoSize = true;
-            this.countLabel.Location = new System.Drawing.Point(7, 68);
-            this.countLabel.Name = "countLabel";
-            this.countLabel.Size = new System.Drawing.Size(60, 13);
-            this.countLabel.TabIndex = 2;
-            this.countLabel.Text = "countLabel";
-            // 
-            // buttonStart
-            // 
-            this.buttonStart.Location = new System.Drawing.Point(7, 20);
-            this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(74, 23);
-            this.buttonStart.TabIndex = 0;
-            this.buttonStart.Text = "Start";
-            this.buttonStart.UseVisualStyleBackColor = true;
-            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
-            // 
-            // buttonStop
-            // 
-            this.buttonStop.Location = new System.Drawing.Point(98, 20);
-            this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(75, 23);
-            this.buttonStop.TabIndex = 1;
-            this.buttonStop.Text = "Stop";
-            this.buttonStop.UseVisualStyleBackColor = true;
-            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
-            // 
-            // buttonReset
-            // 
-            this.buttonReset.Location = new System.Drawing.Point(7, 49);
-            this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(74, 23);
-            this.buttonReset.TabIndex = 3;
-            this.buttonReset.Text = "Reset";
-            this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
             // statusStrip1
             // 
@@ -270,6 +272,16 @@
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(98, 48);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 4;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // MainForm
             // 
@@ -317,6 +329,7 @@
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.Button buttonSave;
     }
 }
 

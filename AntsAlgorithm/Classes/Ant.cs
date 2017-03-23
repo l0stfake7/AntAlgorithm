@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 
@@ -6,9 +7,10 @@ namespace AntsAlgorithm.Classes
 {
     class Ant
     {
-        public Point A;
-        public Point B;
+        public Tuple<Double, Double> ActualPoint;
+        public IList<Tuple<Double, Double>> Points;
         public Thread AntThread;
+        public int counterMove;
         private static readonly Random RandomGenerator = new Random();
         private static readonly object SyncLock = new object();
 
@@ -20,15 +22,11 @@ namespace AntsAlgorithm.Classes
             }
         }
 
-        public Ant()
+        public Ant(IList<Tuple<Double, Double>> points)
         {
+            this.Points = points;
+            counterMove = 0;
             AntThread = new Thread(StartAntThread);
-        }
-
-        public Ant(Point A, Point B) : base()
-        {
-            this.A = A;
-            this.B = B;
         }
 
         ~Ant()
@@ -40,9 +38,19 @@ namespace AntsAlgorithm.Classes
         {
             while (World.Run)
             {
-                //X = RandomGenerator.Next(700);
-                //Y = RandomGenerator.Next(350);
-                Thread.Sleep(World.TimeInterval);
+                
+                    //X = RandomGenerator.Next(700);
+                    //Y = RandomGenerator.Next(350);
+                counterMove++;
+                if (counterMove > 10)
+                {
+                    AntThread.Abort();
+                }
+                else
+                {
+                    ActualPoint = Points[counterMove];
+                    Thread.Sleep(World.TimeInterval);
+                }
             }
         }
     }
