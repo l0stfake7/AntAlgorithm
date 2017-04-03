@@ -23,7 +23,6 @@ namespace AntsAlgorithm.Classes
 
         public static IList<Tuple<Double, Double>> SplitLine( Tuple<Double, Double> a, Tuple<Double, Double> b, int count)
         {
-
             count++;
 
             Double d = Math.Sqrt((a.Item1 - b.Item1) * (a.Item1 - b.Item1) + (a.Item2 - b.Item2) * (a.Item2 - b.Item2)) / count;

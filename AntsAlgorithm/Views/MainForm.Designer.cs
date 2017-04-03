@@ -1,4 +1,4 @@
-﻿namespace AntsAlgorithm
+﻿namespace AntsAlgorithm.Views
 {
     partial class MainForm
     {
