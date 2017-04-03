@@ -36,6 +36,7 @@
             this.labelDebug2 = new System.Windows.Forms.Label();
             this.labelDebug1 = new System.Windows.Forms.Label();
             this.groupBoxActions = new System.Windows.Forms.GroupBox();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.buttonReset = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
@@ -48,14 +49,19 @@
             this.Settings = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.buttonSave = new System.Windows.Forms.Button();
+            this.groupBoxSettingsLanguage = new System.Windows.Forms.GroupBox();
+            this.radioButtonPolish = new System.Windows.Forms.RadioButton();
+            this.radioButtonEnglish = new System.Windows.Forms.RadioButton();
+            this.radioButtonDeutch = new System.Windows.Forms.RadioButton();
             this.MainTabControl.SuspendLayout();
             this.Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.groupBoxDebug.SuspendLayout();
             this.groupBoxActions.SuspendLayout();
             this.groupBoxSelectMode.SuspendLayout();
+            this.Settings.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBoxSettingsLanguage.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTabControl
@@ -148,6 +154,16 @@
             this.groupBoxActions.TabIndex = 1;
             this.groupBoxActions.TabStop = false;
             this.groupBoxActions.Text = "Actions";
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(98, 48);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 4;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonReset
             // 
@@ -250,6 +266,7 @@
             // 
             // Settings
             // 
+            this.Settings.Controls.Add(this.groupBoxSettingsLanguage);
             this.Settings.Location = new System.Drawing.Point(4, 22);
             this.Settings.Name = "Settings";
             this.Settings.Padding = new System.Windows.Forms.Padding(3);
@@ -273,15 +290,49 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // buttonSave
+            // groupBoxSettingsLanguage
             // 
-            this.buttonSave.Location = new System.Drawing.Point(98, 48);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 4;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonDeutch);
+            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonEnglish);
+            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonPolish);
+            this.groupBoxSettingsLanguage.Location = new System.Drawing.Point(7, 7);
+            this.groupBoxSettingsLanguage.Name = "groupBoxSettingsLanguage";
+            this.groupBoxSettingsLanguage.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxSettingsLanguage.TabIndex = 0;
+            this.groupBoxSettingsLanguage.TabStop = false;
+            this.groupBoxSettingsLanguage.Text = "Language";
+            // 
+            // radioButtonPolish
+            // 
+            this.radioButtonPolish.AutoSize = true;
+            this.radioButtonPolish.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonPolish.Name = "radioButtonPolish";
+            this.radioButtonPolish.Size = new System.Drawing.Size(53, 17);
+            this.radioButtonPolish.TabIndex = 0;
+            this.radioButtonPolish.Text = "Polish";
+            this.radioButtonPolish.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonEnglish
+            // 
+            this.radioButtonEnglish.AutoSize = true;
+            this.radioButtonEnglish.Checked = true;
+            this.radioButtonEnglish.Location = new System.Drawing.Point(7, 44);
+            this.radioButtonEnglish.Name = "radioButtonEnglish";
+            this.radioButtonEnglish.Size = new System.Drawing.Size(59, 17);
+            this.radioButtonEnglish.TabIndex = 1;
+            this.radioButtonEnglish.TabStop = true;
+            this.radioButtonEnglish.Text = "English";
+            this.radioButtonEnglish.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDeutch
+            // 
+            this.radioButtonDeutch.AutoSize = true;
+            this.radioButtonDeutch.Location = new System.Drawing.Point(7, 68);
+            this.radioButtonDeutch.Name = "radioButtonDeutch";
+            this.radioButtonDeutch.Size = new System.Drawing.Size(60, 17);
+            this.radioButtonDeutch.TabIndex = 2;
+            this.radioButtonDeutch.Text = "Deutch";
+            this.radioButtonDeutch.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -300,8 +351,11 @@
             this.groupBoxActions.ResumeLayout(false);
             this.groupBoxSelectMode.ResumeLayout(false);
             this.groupBoxSelectMode.PerformLayout();
+            this.Settings.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBoxSettingsLanguage.ResumeLayout(false);
+            this.groupBoxSettingsLanguage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -330,6 +384,10 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.GroupBox groupBoxSettingsLanguage;
+        private System.Windows.Forms.RadioButton radioButtonDeutch;
+        private System.Windows.Forms.RadioButton radioButtonEnglish;
+        private System.Windows.Forms.RadioButton radioButtonPolish;
     }
 }
 

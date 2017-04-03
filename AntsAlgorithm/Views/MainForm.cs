@@ -39,7 +39,7 @@ namespace AntsAlgorithm
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             g = Graphics.FromImage(bmp);
             g.Clear(Color.PeachPuff);
- 
+
             world = new World
             {
                 NodeList = new List<Point>(),
@@ -85,100 +85,113 @@ namespace AntsAlgorithm
             switch (_rOp)
             {
                 case SelectMode.Select:
-                {
-                    foreach (Point p in world.NodeList)
                     {
-                        if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                        foreach (Point p in world.NodeList)
                         {
-                            _lastSel = p; //current item in loop
-                            DebugLabel2("Select " + p.X + " " + p.X);
-                            break;
-                        }
-                    }
-                    break;
-                }
-                case SelectMode.Node:
-                {
-                    foreach (Point p in world.NodeList)
-                    {
-                        if (!Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
-                        {
-                            world.NodeList.Add(new Point(e.X, e.Y));
-                            DrawNode(new Point(e.X, e.Y));
-                            DebugLabel2("New node " + e.X + " " + e.Y);
-                            //pictureBox.Refresh();
-                            break;
-                        }
-                    }
-                    break;
-                }
-                case SelectMode.Path:
-                {
-                    foreach (Point p in world.NodeList)
-                    {
-                        if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
-                        {
-                            if (_lastSel != Point.Empty)
+                            if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
                             {
-                                var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
-                                world.PathList.Add(world.PathList.Count + 1, path);
-                                DrawPath(_lastSel, new Point(p.X, p.Y));
-                                DebugLabel2("New path " + p.X + " " + p.Y + " to " + _lastSel.X + " " + _lastSel.Y);
+                                _lastSel = p; //current item in loop
+                                DebugLabel2("Select " + p.X + " " + p.Y);
+                                break;
                             }
-                            break;
                         }
+                        break;
                     }
-                    break;
-                }
-                case SelectMode.Ant:
-                {
-                    foreach (Point p in world.NodeList)
+                case SelectMode.Node:
                     {
-                        if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                        foreach (Point p in world.NodeList)
                         {
-                            if (_lastSel != Point.Empty)
+                            if (!Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
                             {
-                                var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
-                                foreach (KeyValuePair<int, Tuple<Point, Point>> entry in world.PathList)
+                                world.NodeList.Add(new Point(e.X, e.Y));
+                                DrawNode(new Point(e.X, e.Y));
+                                DebugLabel2("New node " + e.X + " " + e.Y);
+                                //pictureBox.Refresh();
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                case SelectMode.Path:
+                    {
+                        foreach (Point p in world.NodeList)
+                        {
+                            if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                            {
+                                if (_lastSel != Point.Empty)
                                 {
-                                    if (entry.Value.Equals(path))
-                                    {//find path with start point p.x, p.y and end point e.x e.y, todo find from e.x e.y to p.x, p.y
-                                       IList<Tuple<Double, Double>> points = Utility.SplitLine(
-                                              new Tuple<Double, Double>(_lastSel.X, _lastSel.Y),
-                                              new Tuple<Double, Double>(p.X, p.Y), 10);
-                                        Ant ant = new Ant(points);
-                                        world.Ants.Add(ant);
-                                        DebugLabel1("New Ant");
-                                        break;
+                                    var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
+                                    world.PathList.Add(world.PathList.Count + 1, path);
+                                    DrawPath(_lastSel, new Point(p.X, p.Y));
+                                    DebugLabel2("New path " + _lastSel.X + " " + _lastSel.Y + " to " + p.X + " " + p.Y);
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                case SelectMode.Ant:
+                    {
+                        foreach (Point p in world.NodeList)
+                        {
+                            if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                            {
+                                if (_lastSel != Point.Empty)
+                                {
+                                    var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
+                                    foreach (KeyValuePair<int, Tuple<Point, Point>> entry in world.PathList)
+                                    {
+                                        if (entry.Value.Equals(path))
+                                        {//find path with start point p.x, p.y and end point e.x e.y, todo find from e.x e.y to p.x, p.y
+                                            IList<Tuple<Double, Double>> points = Utility.SplitLine(
+                                                   new Tuple<Double, Double>(_lastSel.X, _lastSel.Y),
+                                                   new Tuple<Double, Double>(p.X, p.Y), 10);
+                                            Ant ant = new Ant(points);
+                                            world.Ants.Add(ant);
+                                            DebugLabel2("New Ant");
+                                            break;
+                                        }
                                     }
                                 }
                             }
                         }
+                        break;
                     }
-                    break;
-                }
             }
             DebugLabel1(e.X + " " + e.Y);
         }
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {//here only moving
-          
-            if (world.Ants.Count != 0)
+
+
+            if (world.Ants.Count > 0)
             {
-                for (int x = 0; x < world.Ants.Count; x++)
+                foreach (Ant ant in world.Ants)
                 {
                     Font drawFont = new Font("Arial", 8);
                     SolidBrush drawBrush = new SolidBrush(Color.Fuchsia);
-                    g.DrawEllipse(new Pen(Color.DarkGreen, 5), (float)world.Ants[x].ActualPoint.Item1, (float)world.Ants[x].ActualPoint.Item2, 5, 5);
-                    g.DrawString(x.ToString(), drawFont, drawBrush, (float)world.Ants[x].ActualPoint.Item1 + 25, (float)world.Ants[x].ActualPoint.Item2 - 5);
+                    g.DrawEllipse(new Pen(Color.DarkGreen, 5), (float)ant.ActualPoint.Item1, (float)ant.ActualPoint.Item2, 5, 5);
+                    g.DrawString(ant.ToString(), drawFont, drawBrush, (float)ant.ActualPoint.Item1 + 25, (float)ant.ActualPoint.Item2 - 5);
+
                 }
+                //for (int x = 0; x < world.Ants.Count; x++)
+                //{
+                //    Font drawFont = new Font("Arial", 8);
+                //    SolidBrush drawBrush = new SolidBrush(Color.Fuchsia);
+                //    g.DrawEllipse(new Pen(Color.DarkGreen, 5), (float)world.Ants[x].ActualPoint.Item1, (float)world.Ants[x].ActualPoint.Item2, 5, 5);
+                //    g.DrawString(x.ToString(), drawFont, drawBrush, (float)world.Ants[x].ActualPoint.Item1 + 25, (float)world.Ants[x].ActualPoint.Item2 - 5);
+                //}
                 pictureBox.Image = bmp;
             }
             counter++;
             countLabel.Text = "On Paint called counter: " + counter;
+            if (World.Run)
+            {
+                pictureBox.Image = bmp;
+            }
         }
-        
+
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
@@ -190,8 +203,8 @@ namespace AntsAlgorithm
                 {
                     Thread.Sleep(1);
                 }
-
             }
+            pictureBox.Image = bmp;
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -199,7 +212,7 @@ namespace AntsAlgorithm
             World.Run = false;
             for (int i = 0; i < world.Ants.Count; i++)
             {
-                if(!world.Ants[i].AntThread.IsAlive)
+                if (!world.Ants[i].AntThread.IsAlive)
                     world.Ants[i].AntThread.Abort();
             }
         }
@@ -222,17 +235,18 @@ namespace AntsAlgorithm
         private void pictureBox_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
+            toolStripStatusLabel.Text = @"X: 0.00 Y: 0.00";
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            toolStripStatusLabel.Text = "X: " + e.X + " Y:" + e.Y;
+            toolStripStatusLabel.Text = @"X: " + e.X + @" Y:" + e.Y;
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "jpeg (*.jpeg)|*.jpeg";
+            dialog.Filter = @"jpeg (*.jpeg)|*.jpeg";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 int width = Convert.ToInt32(pictureBox.Width);
@@ -292,7 +306,5 @@ namespace AntsAlgorithm
         }
 
         #endregion
-
-        
     }
 }

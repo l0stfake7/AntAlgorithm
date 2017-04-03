@@ -39,9 +39,10 @@ namespace AntsAlgorithm.Classes
             while (World.Run)
             {
                 
-                    //X = RandomGenerator.Next(700);
-                    //Y = RandomGenerator.Next(350);
-                counterMove++;
+                //X = RandomGenerator.Next(700);
+                //Y = RandomGenerator.Next(350);
+                
+                
                 if (counterMove > 10)
                 {
                     AntThread.Abort();
@@ -50,6 +51,7 @@ namespace AntsAlgorithm.Classes
                 {
                     ActualPoint = Points[counterMove];
                     Thread.Sleep(World.TimeInterval);
+                    counterMove++;
                 }
             }
         }
