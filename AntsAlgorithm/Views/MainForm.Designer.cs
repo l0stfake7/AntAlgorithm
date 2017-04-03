@@ -47,12 +47,16 @@
             this.radioButtonSelect = new System.Windows.Forms.RadioButton();
             this.Editor = new System.Windows.Forms.TabPage();
             this.Settings = new System.Windows.Forms.TabPage();
+            this.groupBoxSettingsLanguage = new System.Windows.Forms.GroupBox();
+            this.radioButtonDeutch = new System.Windows.Forms.RadioButton();
+            this.radioButtonEnglish = new System.Windows.Forms.RadioButton();
+            this.radioButtonPolish = new System.Windows.Forms.RadioButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupBoxSettingsLanguage = new System.Windows.Forms.GroupBox();
-            this.radioButtonPolish = new System.Windows.Forms.RadioButton();
-            this.radioButtonEnglish = new System.Windows.Forms.RadioButton();
-            this.radioButtonDeutch = new System.Windows.Forms.RadioButton();
+            this.groupBoxTheme = new System.Windows.Forms.GroupBox();
+            this.colorDialogTheme = new System.Windows.Forms.ColorDialog();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.MainTabControl.SuspendLayout();
             this.Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -60,8 +64,9 @@
             this.groupBoxActions.SuspendLayout();
             this.groupBoxSelectMode.SuspendLayout();
             this.Settings.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.groupBoxSettingsLanguage.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            this.groupBoxTheme.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTabControl
@@ -266,6 +271,7 @@
             // 
             // Settings
             // 
+            this.Settings.Controls.Add(this.groupBoxTheme);
             this.Settings.Controls.Add(this.groupBoxSettingsLanguage);
             this.Settings.Location = new System.Drawing.Point(4, 22);
             this.Settings.Name = "Settings";
@@ -274,6 +280,50 @@
             this.Settings.TabIndex = 2;
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxSettingsLanguage
+            // 
+            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonDeutch);
+            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonEnglish);
+            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonPolish);
+            this.groupBoxSettingsLanguage.Location = new System.Drawing.Point(7, 7);
+            this.groupBoxSettingsLanguage.Name = "groupBoxSettingsLanguage";
+            this.groupBoxSettingsLanguage.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxSettingsLanguage.TabIndex = 0;
+            this.groupBoxSettingsLanguage.TabStop = false;
+            this.groupBoxSettingsLanguage.Text = "Language";
+            // 
+            // radioButtonDeutch
+            // 
+            this.radioButtonDeutch.AutoSize = true;
+            this.radioButtonDeutch.Location = new System.Drawing.Point(7, 68);
+            this.radioButtonDeutch.Name = "radioButtonDeutch";
+            this.radioButtonDeutch.Size = new System.Drawing.Size(60, 17);
+            this.radioButtonDeutch.TabIndex = 2;
+            this.radioButtonDeutch.Text = "Deutch";
+            this.radioButtonDeutch.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonEnglish
+            // 
+            this.radioButtonEnglish.AutoSize = true;
+            this.radioButtonEnglish.Checked = true;
+            this.radioButtonEnglish.Location = new System.Drawing.Point(7, 44);
+            this.radioButtonEnglish.Name = "radioButtonEnglish";
+            this.radioButtonEnglish.Size = new System.Drawing.Size(59, 17);
+            this.radioButtonEnglish.TabIndex = 1;
+            this.radioButtonEnglish.TabStop = true;
+            this.radioButtonEnglish.Text = "English";
+            this.radioButtonEnglish.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonPolish
+            // 
+            this.radioButtonPolish.AutoSize = true;
+            this.radioButtonPolish.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonPolish.Name = "radioButtonPolish";
+            this.radioButtonPolish.Size = new System.Drawing.Size(53, 17);
+            this.radioButtonPolish.TabIndex = 0;
+            this.radioButtonPolish.Text = "Polish";
+            this.radioButtonPolish.UseVisualStyleBackColor = true;
             // 
             // statusStrip1
             // 
@@ -290,49 +340,41 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // groupBoxSettingsLanguage
+            // groupBoxTheme
             // 
-            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonDeutch);
-            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonEnglish);
-            this.groupBoxSettingsLanguage.Controls.Add(this.radioButtonPolish);
-            this.groupBoxSettingsLanguage.Location = new System.Drawing.Point(7, 7);
-            this.groupBoxSettingsLanguage.Name = "groupBoxSettingsLanguage";
-            this.groupBoxSettingsLanguage.Size = new System.Drawing.Size(200, 100);
-            this.groupBoxSettingsLanguage.TabIndex = 0;
-            this.groupBoxSettingsLanguage.TabStop = false;
-            this.groupBoxSettingsLanguage.Text = "Language";
+            this.groupBoxTheme.Controls.Add(this.button1);
+            this.groupBoxTheme.Controls.Add(this.label1);
+            this.groupBoxTheme.Location = new System.Drawing.Point(7, 114);
+            this.groupBoxTheme.Name = "groupBoxTheme";
+            this.groupBoxTheme.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxTheme.TabIndex = 1;
+            this.groupBoxTheme.TabStop = false;
+            this.groupBoxTheme.Text = "Theme";
             // 
-            // radioButtonPolish
+            // colorDialogTheme
             // 
-            this.radioButtonPolish.AutoSize = true;
-            this.radioButtonPolish.Location = new System.Drawing.Point(7, 20);
-            this.radioButtonPolish.Name = "radioButtonPolish";
-            this.radioButtonPolish.Size = new System.Drawing.Size(53, 17);
-            this.radioButtonPolish.TabIndex = 0;
-            this.radioButtonPolish.Text = "Polish";
-            this.radioButtonPolish.UseVisualStyleBackColor = true;
+            this.colorDialogTheme.AnyColor = true;
+            this.colorDialogTheme.FullOpen = true;
+            this.colorDialogTheme.ShowHelp = true;
             // 
-            // radioButtonEnglish
+            // label1
             // 
-            this.radioButtonEnglish.AutoSize = true;
-            this.radioButtonEnglish.Checked = true;
-            this.radioButtonEnglish.Location = new System.Drawing.Point(7, 44);
-            this.radioButtonEnglish.Name = "radioButtonEnglish";
-            this.radioButtonEnglish.Size = new System.Drawing.Size(59, 17);
-            this.radioButtonEnglish.TabIndex = 1;
-            this.radioButtonEnglish.TabStop = true;
-            this.radioButtonEnglish.Text = "English";
-            this.radioButtonEnglish.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
             // 
-            // radioButtonDeutch
+            // button1
             // 
-            this.radioButtonDeutch.AutoSize = true;
-            this.radioButtonDeutch.Location = new System.Drawing.Point(7, 68);
-            this.radioButtonDeutch.Name = "radioButtonDeutch";
-            this.radioButtonDeutch.Size = new System.Drawing.Size(60, 17);
-            this.radioButtonDeutch.TabIndex = 2;
-            this.radioButtonDeutch.Text = "Deutch";
-            this.radioButtonDeutch.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(48, 15);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
@@ -352,10 +394,12 @@
             this.groupBoxSelectMode.ResumeLayout(false);
             this.groupBoxSelectMode.PerformLayout();
             this.Settings.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.groupBoxSettingsLanguage.ResumeLayout(false);
             this.groupBoxSettingsLanguage.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.groupBoxTheme.ResumeLayout(false);
+            this.groupBoxTheme.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -388,6 +432,10 @@
         private System.Windows.Forms.RadioButton radioButtonDeutch;
         private System.Windows.Forms.RadioButton radioButtonEnglish;
         private System.Windows.Forms.RadioButton radioButtonPolish;
+        private System.Windows.Forms.GroupBox groupBoxTheme;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ColorDialog colorDialogTheme;
     }
 }
 

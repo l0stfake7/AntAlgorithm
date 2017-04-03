@@ -308,5 +308,18 @@ namespace AntsAlgorithm.Views
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            colorDialogTheme = new ColorDialog();
+            // Keeps the user from selecting a custom color.
+            colorDialogTheme.AllowFullOpen = false;
+            // Allows the user to get help. (The default is false.)
+            colorDialogTheme.ShowHelp = true;
+
+            // Update the text box color if the user clicks OK 
+            if (colorDialogTheme.ShowDialog() == DialogResult.OK)
+                label1.ForeColor = colorDialogTheme.Color;
+        }
     }
 }
