@@ -47,16 +47,19 @@
             this.radioButtonSelect = new System.Windows.Forms.RadioButton();
             this.Editor = new System.Windows.Forms.TabPage();
             this.Settings = new System.Windows.Forms.TabPage();
+            this.groupBoxTheme = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBoxSettingsLanguage = new System.Windows.Forms.GroupBox();
             this.radioButtonDeutch = new System.Windows.Forms.RadioButton();
             this.radioButtonEnglish = new System.Windows.Forms.RadioButton();
             this.radioButtonPolish = new System.Windows.Forms.RadioButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupBoxTheme = new System.Windows.Forms.GroupBox();
             this.colorDialogTheme = new System.Windows.Forms.ColorDialog();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.groupBoxVisualisation = new System.Windows.Forms.GroupBox();
+            this.trackBarSpeed = new System.Windows.Forms.TrackBar();
+            this.label2 = new System.Windows.Forms.Label();
             this.MainTabControl.SuspendLayout();
             this.Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -64,9 +67,11 @@
             this.groupBoxActions.SuspendLayout();
             this.groupBoxSelectMode.SuspendLayout();
             this.Settings.SuspendLayout();
+            this.groupBoxTheme.SuspendLayout();
             this.groupBoxSettingsLanguage.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.groupBoxTheme.SuspendLayout();
+            this.groupBoxVisualisation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // MainTabControl
@@ -271,6 +276,7 @@
             // 
             // Settings
             // 
+            this.Settings.Controls.Add(this.groupBoxVisualisation);
             this.Settings.Controls.Add(this.groupBoxTheme);
             this.Settings.Controls.Add(this.groupBoxSettingsLanguage);
             this.Settings.Location = new System.Drawing.Point(4, 22);
@@ -280,6 +286,36 @@
             this.Settings.TabIndex = 2;
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxTheme
+            // 
+            this.groupBoxTheme.Controls.Add(this.button1);
+            this.groupBoxTheme.Controls.Add(this.label1);
+            this.groupBoxTheme.Location = new System.Drawing.Point(7, 114);
+            this.groupBoxTheme.Name = "groupBoxTheme";
+            this.groupBoxTheme.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxTheme.TabIndex = 1;
+            this.groupBoxTheme.TabStop = false;
+            this.groupBoxTheme.Text = "Theme";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(48, 15);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
             // 
             // groupBoxSettingsLanguage
             // 
@@ -340,41 +376,42 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // groupBoxTheme
-            // 
-            this.groupBoxTheme.Controls.Add(this.button1);
-            this.groupBoxTheme.Controls.Add(this.label1);
-            this.groupBoxTheme.Location = new System.Drawing.Point(7, 114);
-            this.groupBoxTheme.Name = "groupBoxTheme";
-            this.groupBoxTheme.Size = new System.Drawing.Size(200, 100);
-            this.groupBoxTheme.TabIndex = 1;
-            this.groupBoxTheme.TabStop = false;
-            this.groupBoxTheme.Text = "Theme";
-            // 
             // colorDialogTheme
             // 
             this.colorDialogTheme.AnyColor = true;
             this.colorDialogTheme.FullOpen = true;
             this.colorDialogTheme.ShowHelp = true;
             // 
-            // label1
+            // groupBoxVisualisation
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.groupBoxVisualisation.Controls.Add(this.label2);
+            this.groupBoxVisualisation.Controls.Add(this.trackBarSpeed);
+            this.groupBoxVisualisation.Location = new System.Drawing.Point(214, 7);
+            this.groupBoxVisualisation.Name = "groupBoxVisualisation";
+            this.groupBoxVisualisation.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxVisualisation.TabIndex = 2;
+            this.groupBoxVisualisation.TabStop = false;
+            this.groupBoxVisualisation.Text = "Visualisation";
             // 
-            // button1
+            // trackBarSpeed
             // 
-            this.button1.Location = new System.Drawing.Point(48, 15);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.trackBarSpeed.LargeChange = 1;
+            this.trackBarSpeed.Location = new System.Drawing.Point(6, 44);
+            this.trackBarSpeed.Minimum = 1;
+            this.trackBarSpeed.Name = "trackBarSpeed";
+            this.trackBarSpeed.Size = new System.Drawing.Size(188, 45);
+            this.trackBarSpeed.TabIndex = 1;
+            this.trackBarSpeed.Value = 5;
+            this.trackBarSpeed.ValueChanged += new System.EventHandler(this.trackBarSpeed_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "label2";
             // 
             // MainForm
             // 
@@ -394,12 +431,15 @@
             this.groupBoxSelectMode.ResumeLayout(false);
             this.groupBoxSelectMode.PerformLayout();
             this.Settings.ResumeLayout(false);
+            this.groupBoxTheme.ResumeLayout(false);
+            this.groupBoxTheme.PerformLayout();
             this.groupBoxSettingsLanguage.ResumeLayout(false);
             this.groupBoxSettingsLanguage.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.groupBoxTheme.ResumeLayout(false);
-            this.groupBoxTheme.PerformLayout();
+            this.groupBoxVisualisation.ResumeLayout(false);
+            this.groupBoxVisualisation.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -436,6 +476,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColorDialog colorDialogTheme;
+        private System.Windows.Forms.GroupBox groupBoxVisualisation;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TrackBar trackBarSpeed;
     }
 }
 

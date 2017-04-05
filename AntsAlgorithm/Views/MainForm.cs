@@ -321,5 +321,10 @@ namespace AntsAlgorithm.Views
             if (colorDialogTheme.ShowDialog() == DialogResult.OK)
                 label1.ForeColor = colorDialogTheme.Color;
         }
+
+        private void trackBarSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            World.TimeInterval = (short)(trackBarSpeed.Value * 100);
+        }
     }
 }
