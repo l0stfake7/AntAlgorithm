@@ -34,7 +34,7 @@ namespace AntsAlgorithm.Views
 
             _world = new World
             {
-                NodeList = new List<Point>(),
+                NodeList = new List<Node>(),
                 Ants = new List<Ant>(),
                 PathList = new Dictionary<int, Tuple<Point, Point>>()
             };
@@ -43,7 +43,7 @@ namespace AntsAlgorithm.Views
 
             _brush = new SolidBrush(Color.Black);
             _rOp = SelectMode.Select;
-            _lastSel = _world.NodeList[0];
+            _lastSel = _world.NodeList[0].Point;
             _counter = 0;
 
         }
@@ -76,12 +76,12 @@ namespace AntsAlgorithm.Views
             {
                 case SelectMode.Select:
                 {
-                    foreach (Point p in _world.NodeList)
+                    foreach (Node node in _world.NodeList)
                     {
-                        if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                        if (Utility.InsideCircle(node.Point.X, node.Point.Y, Radius, e.X, e.Y))
                         {
-                            _lastSel = p; //current item in loop
-                            DebugLabel2("Select " + p.X + " " + p.Y);
+                            _lastSel = node.Point; //current item in loop
+                            DebugLabel2("Select " + node.Point.X + " " + node.Point.Y);
                             break;
                         }
                     }
@@ -89,11 +89,11 @@ namespace AntsAlgorithm.Views
                 }
                 case SelectMode.Node:
                 {
-                    foreach (Point p in _world.NodeList)
+                    foreach (Node node in _world.NodeList)
                     {
-                        if (!Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                        if (!Utility.InsideCircle(node.Point.X, node.Point.Y, Radius, e.X, e.Y))
                         {
-                            _world.NodeList.Add(new Point(e.X, e.Y));
+                            _world.NodeList.Add(new Node(new Point(e.X, e.Y), NodeType.Default));
                             DrawNode(new Point(e.X, e.Y));
                             DebugLabel2("New node " + e.X + " " + e.Y);
                             //pictureBox.Refresh();
@@ -104,16 +104,16 @@ namespace AntsAlgorithm.Views
                 }
                 case SelectMode.Path:
                 {
-                    foreach (Point p in _world.NodeList)
+                    foreach (Node node in _world.NodeList)
                     {
-                        if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                        if (Utility.InsideCircle(node.Point.X, node.Point.Y, Radius, e.X, e.Y))
                         {
                             if (_lastSel != Point.Empty)
                             {
-                                var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
+                                var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(node.Point.X, node.Point.Y));
                                 _world.PathList.Add(_world.PathList.Count + 1, path);
-                                DrawPath(_lastSel, new Point(p.X, p.Y));
-                                DebugLabel2("New path " + _lastSel.X + " " + _lastSel.Y + " to " + p.X + " " + p.Y);
+                                DrawPath(_lastSel, new Point(node.Point.X, node.Point.Y));
+                                DebugLabel2("New path " + _lastSel.X + " " + _lastSel.Y + " to " + node.Point.X + " " + node.Point.Y);
                             }
                             break;
                         }
@@ -122,20 +122,20 @@ namespace AntsAlgorithm.Views
                 }
                 case SelectMode.Ant:
                 {
-                    foreach (Point p in _world.NodeList)
+                    foreach (Node node in _world.NodeList)
                     {
-                        if (Utility.InsideCircle(p.X, p.Y, Radius, e.X, e.Y))
+                        if (Utility.InsideCircle(node.Point.X, node.Point.Y, Radius, e.X, e.Y))
                         {
                             if (_lastSel != Point.Empty)
                             {
-                                var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(p.X, p.Y));
+                                var path = Tuple.Create(new Point(_lastSel.X, _lastSel.Y), new Point(node.Point.X, node.Point.Y));
                                 foreach (KeyValuePair<int, Tuple<Point, Point>> entry in _world.PathList)
                                 {
                                     if (entry.Value.Equals(path))
                                     {//find path with start point p.x, p.y and end point e.x e.y, ///todo find from e.x e.y to p.x, p.y
                                         IList<Tuple<Double, Double>> points = Utility.SplitLine(
                                             new Tuple<Double, Double>(_lastSel.X, _lastSel.Y),
-                                            new Tuple<Double, Double>(p.X, p.Y), 25);
+                                            new Tuple<Double, Double>(node.Point.X, node.Point.Y), 25);
                                         Ant ant = new Ant(points);
                                         _world.Ants.Add(ant);
                                         DebugLabel2("New Ant");
@@ -164,17 +164,17 @@ namespace AntsAlgorithm.Views
                     g.DrawString(x.ToString(), drawFont, drawBrush, (float)_world.Ants[x].ActualPoint.Item1 + 25, (float)_world.Ants[x].ActualPoint.Item2 - 5);                  
                 }
                 _font = new Font(FontFamily.GenericMonospace, 7.5F, FontStyle.Regular);
-                g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[0].X, _world.NodeList[0].Y, Radius + 5, Radius + 5);
-                g.DrawString("AntsColony " + "[" + _world.NodeList[0].X + "," + _world.NodeList[0].Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[0].X, _world.NodeList[0].Y));
-                g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[1].X, _world.NodeList[1].Y, Radius + 5, Radius + 5);
-                g.DrawString("Food :) " + "[" + _world.NodeList[1].X + "," + _world.NodeList[1].Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[1].X, _world.NodeList[1].Y));
+                g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[0].Point.X, _world.NodeList[0].Point.Y, Radius + 5, Radius + 5);
+                g.DrawString("AntsColony " + "[" + _world.NodeList[0].Point.X + "," + _world.NodeList[0].Point.Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[0].Point.X, _world.NodeList[0].Point.Y));
+                g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[1].Point.X, _world.NodeList[1].Point.Y, Radius + 5, Radius + 5);
+                g.DrawString("Food :) " + "[" + _world.NodeList[1].Point.X + "," + _world.NodeList[1].Point.Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[1].Point.X, _world.NodeList[1].Point.Y));
 
-                foreach (Point p in _world.NodeList)
+                foreach (Node node in _world.NodeList)
                 {
-                    g.FillEllipse(_brush, p.X, p.Y, Radius, Radius);
+                    g.FillEllipse(_brush, node.Point.X, node.Point.Y, Radius, Radius);
                     _font = new Font(FontFamily.GenericMonospace, 6.0F, FontStyle.Regular);
-                    g.DrawString("Point " + _world.NodeList.Count + "[" + p.X + "," + p.Y + "]", _font,
-                        new SolidBrush(Color.Brown), new Point(p.X, p.Y));
+                    g.DrawString("Point " + _world.NodeList.Count + "[" + node.Point.X + "," + node.Point.Y + "]", _font,
+                        new SolidBrush(Color.Brown), new Point(node.Point.X, node.Point.Y));
                 }
 
                 foreach (KeyValuePair<int, Tuple<Point, Point>> entry in _world.PathList)
@@ -275,13 +275,13 @@ namespace AntsAlgorithm.Views
 
         private void DrawStart()
         {
-            _world.NodeList.Add(new Point(100, 150));
-            _world.NodeList.Add(new Point(250, 175));
+            _world.NodeList.Add(new Node(new Point(100, 150), NodeType.Colony));
+            _world.NodeList.Add(new Node(new Point(250, 175), NodeType.Food));
             _font = new Font(FontFamily.GenericMonospace, 7.5F, FontStyle.Regular);
-            g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[0].X, _world.NodeList[0].Y, Radius + 5, Radius + 5);
-            g.DrawString("AntsColony " + "[" + _world.NodeList[0].X + "," + _world.NodeList[0].Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[0].X, _world.NodeList[0].Y));
-            g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[1].X, _world.NodeList[1].Y, Radius + 5, Radius + 5);
-            g.DrawString("Food :) " + "[" + _world.NodeList[1].X + "," + _world.NodeList[1].Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[1].X, _world.NodeList[1].Y));
+            g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[0].Point.X, _world.NodeList[0].Point.Y, Radius + 5, Radius + 5);
+            g.DrawString("AntsColony " + "[" + _world.NodeList[0].Point.X + "," + _world.NodeList[0].Point.Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[0].Point.X, _world.NodeList[0].Point.Y));
+            g.FillEllipse(new SolidBrush(Color.Red), _world.NodeList[1].Point.X, _world.NodeList[1].Point.Y, Radius + 5, Radius + 5);
+            g.DrawString("Food :) " + "[" + _world.NodeList[1].Point.X + "," + _world.NodeList[1].Point.Y + "]", _font, new SolidBrush(Color.Brown), new Point(_world.NodeList[1].Point.X, _world.NodeList[1].Point.Y));
             pictureBox.Image = _bmp;
         }
 

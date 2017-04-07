@@ -9,7 +9,7 @@ namespace AntsAlgorithm.Classes
         public static bool Run = false;
         public static short TimeInterval = 750;//in ms
 
-        public List<Point> NodeList;
+        public List<Node> NodeList;
         public List<Ant> Ants;
         public Dictionary<int, Tuple<Point, Point>> PathList;
     }
