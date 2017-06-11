@@ -203,7 +203,7 @@ namespace AntsAlgorithm.Views
                 _world.Ants[i].AntThread.Start();
                 while (!_world.Ants[i].AntThread.IsAlive)
                 {
-                    Thread.Sleep(1);
+                    Thread.Sleep(2);
                 }
             }
             pictureBox.Image = _bmp;
