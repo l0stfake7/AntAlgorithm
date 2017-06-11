@@ -1,0 +1,19 @@
+language: csharp
+solution: AntsAlgorithm.sln
+
+image: mono:4.4.0.182
+
+branches:
+  only:
+    - master
+    - development
+before_script:
+
+script:
+  - xbuild ./Fibonacci/Fibonacci.sln
+after_success:
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
