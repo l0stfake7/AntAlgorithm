@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("test1");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("test2");
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.Main = new System.Windows.Forms.TabPage();
             this.pictureBox = new System.Windows.Forms.PictureBox();
@@ -47,6 +49,9 @@
             this.radioButtonSelect = new System.Windows.Forms.RadioButton();
             this.Editor = new System.Windows.Forms.TabPage();
             this.Settings = new System.Windows.Forms.TabPage();
+            this.groupBoxVisualisation = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.trackBarSpeed = new System.Windows.Forms.TrackBar();
             this.groupBoxTheme = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,9 +62,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.colorDialogTheme = new System.Windows.Forms.ColorDialog();
-            this.groupBoxVisualisation = new System.Windows.Forms.GroupBox();
-            this.trackBarSpeed = new System.Windows.Forms.TrackBar();
-            this.label2 = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.MainTabControl.SuspendLayout();
             this.Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -67,11 +70,11 @@
             this.groupBoxActions.SuspendLayout();
             this.groupBoxSelectMode.SuspendLayout();
             this.Settings.SuspendLayout();
+            this.groupBoxVisualisation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.groupBoxTheme.SuspendLayout();
             this.groupBoxSettingsLanguage.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.groupBoxVisualisation.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // MainTabControl
@@ -207,6 +210,7 @@
             // 
             // groupBoxSelectMode
             // 
+            this.groupBoxSelectMode.Controls.Add(this.listView1);
             this.groupBoxSelectMode.Controls.Add(this.radioButtonAnt);
             this.groupBoxSelectMode.Controls.Add(this.radioButtonPath);
             this.groupBoxSelectMode.Controls.Add(this.radioButtonNode);
@@ -286,6 +290,37 @@
             this.Settings.TabIndex = 2;
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxVisualisation
+            // 
+            this.groupBoxVisualisation.Controls.Add(this.label2);
+            this.groupBoxVisualisation.Controls.Add(this.trackBarSpeed);
+            this.groupBoxVisualisation.Location = new System.Drawing.Point(214, 7);
+            this.groupBoxVisualisation.Name = "groupBoxVisualisation";
+            this.groupBoxVisualisation.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxVisualisation.TabIndex = 2;
+            this.groupBoxVisualisation.TabStop = false;
+            this.groupBoxVisualisation.Text = "Visualisation";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "label2";
+            // 
+            // trackBarSpeed
+            // 
+            this.trackBarSpeed.LargeChange = 1;
+            this.trackBarSpeed.Location = new System.Drawing.Point(6, 44);
+            this.trackBarSpeed.Minimum = 1;
+            this.trackBarSpeed.Name = "trackBarSpeed";
+            this.trackBarSpeed.Size = new System.Drawing.Size(188, 45);
+            this.trackBarSpeed.TabIndex = 1;
+            this.trackBarSpeed.Value = 5;
+            this.trackBarSpeed.ValueChanged += new System.EventHandler(this.trackBarSpeed_ValueChanged);
             // 
             // groupBoxTheme
             // 
@@ -382,36 +417,17 @@
             this.colorDialogTheme.FullOpen = true;
             this.colorDialogTheme.ShowHelp = true;
             // 
-            // groupBoxVisualisation
+            // listView1
             // 
-            this.groupBoxVisualisation.Controls.Add(this.label2);
-            this.groupBoxVisualisation.Controls.Add(this.trackBarSpeed);
-            this.groupBoxVisualisation.Location = new System.Drawing.Point(214, 7);
-            this.groupBoxVisualisation.Name = "groupBoxVisualisation";
-            this.groupBoxVisualisation.Size = new System.Drawing.Size(200, 100);
-            this.groupBoxVisualisation.TabIndex = 2;
-            this.groupBoxVisualisation.TabStop = false;
-            this.groupBoxVisualisation.Text = "Visualisation";
-            // 
-            // trackBarSpeed
-            // 
-            this.trackBarSpeed.LargeChange = 1;
-            this.trackBarSpeed.Location = new System.Drawing.Point(6, 44);
-            this.trackBarSpeed.Minimum = 1;
-            this.trackBarSpeed.Name = "trackBarSpeed";
-            this.trackBarSpeed.Size = new System.Drawing.Size(188, 45);
-            this.trackBarSpeed.TabIndex = 1;
-            this.trackBarSpeed.Value = 5;
-            this.trackBarSpeed.ValueChanged += new System.EventHandler(this.trackBarSpeed_ValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "label2";
+            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2});
+            this.listView1.Location = new System.Drawing.Point(7, 67);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(166, 27);
+            this.listView1.TabIndex = 4;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
             // 
             // MainForm
             // 
@@ -431,15 +447,15 @@
             this.groupBoxSelectMode.ResumeLayout(false);
             this.groupBoxSelectMode.PerformLayout();
             this.Settings.ResumeLayout(false);
+            this.groupBoxVisualisation.ResumeLayout(false);
+            this.groupBoxVisualisation.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
             this.groupBoxTheme.ResumeLayout(false);
             this.groupBoxTheme.PerformLayout();
             this.groupBoxSettingsLanguage.ResumeLayout(false);
             this.groupBoxSettingsLanguage.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.groupBoxVisualisation.ResumeLayout(false);
-            this.groupBoxVisualisation.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -479,6 +495,7 @@
         private System.Windows.Forms.GroupBox groupBoxVisualisation;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TrackBar trackBarSpeed;
+        private System.Windows.Forms.ListView listView1;
     }
 }
 
